@@ -68,12 +68,27 @@ As a starting point, note that both models share the same base variables, object
 
 ### Full Model Formulation
 
-<img width="405" alt="07" src="https://user-images.githubusercontent.com/88580416/146136665-b04216e7-e442-4549-a874-9fff05afd294.PNG">
+<img width="425" alt="07" src="https://user-images.githubusercontent.com/88580416/146169868-bbc9452c-e27b-42c4-a340-b56ef0775789.PNG">
 
 ### Objective Function
 
 <img width="287" alt="08" src="https://user-images.githubusercontent.com/88580416/146136750-7d46f4e9-6824-4deb-919e-845686cc353d.PNG">
 
 The objective function (1) is designed to maximise time savings based on Clarke and Wrights savings algorithm . This is computed by considering time saved when two nodes are joined to be serviced by one route instead of separating them into two routes. Mathematically, said time savings can be computed as follows:
+
+<img width="287" alt="08" src="https://user-images.githubusercontent.com/88580416/146161316-5b1f2900-9220-4c33-824a-e1b6ff78b113.PNG">
+
+### Arc travel constraints
+
+<img width="268" alt="10" src="https://user-images.githubusercontent.com/88580416/146162405-9cc33eb2-e1d6-4ff2-becd-99d0a9f38f0e.PNG">
+
+Model constraint (2) indicates that the number of outgoing arcs - i.e., leaving node i = 0 (Changi Airport) is equal to the number of outgoing buses (p). Constraint (3) is similar indicating that the number of incoming travels arcs – i.e., returning to node j = 0 (Changi Airport) is equal to the number of outgoing buses (p). 
+Assuming demand for hotels in the cluster is not zero (as modelled by zi), constraints (4) and (5) ensure that hotel drop off points (nodes 1 to n) have only one route arriving to them and one route leaving them. In like manner, if there is no demand (by zi=0), the same constraints ensure that there is no route arriving or leaving the drop off point. 
+
+### Bus capacity constraints and demand
+
+<img width="284" alt="11" src="https://user-images.githubusercontent.com/88580416/146168586-b267ba6c-c851-4658-a7af-72b08e138f7f.PNG">
+
+Constraint (6) serves as a continuity constraint for the number of people dropped off by the bus. This ensures that the net number of people dropped off by the bus is always increasing for each route. Constraint (7) limits the maximum number of people dropped off by a bus to be less than the maximum capacity of the bus. Constraint (11) forces the demand indicator to be 1 if there is demand at that node and forces it to be 0 if there is no demand at that node
 
 
