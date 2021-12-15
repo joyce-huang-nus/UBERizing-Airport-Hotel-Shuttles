@@ -22,3 +22,58 @@ An illustration of how this works is provided in Section 4, where the team goes 
 
 ### Service Area and Drop-off Points:
 As part of the study, geodata from all ~ 480 hotels across Singapore were pulled from data.gov.sg  and analysed to determine a sensible service area. Post the analysis, accommodations lying to the far west were dropped. Focused service area were picked as shown below in Fig 2.
+
+<img width="316" alt="03" src="https://user-images.githubusercontent.com/88580416/146136075-e7b35e04-7c4b-4e78-a913-dccb67edd844.PNG">
+
+As a pre-processing step, hotels were clustered using the K-medoids algorithm, effectively designating actual hotels as drop off points. Figure 4 shows the targeted area now expressed in color-coded clusters alongside designated drop off points for each cluster. 
+
+<img width="295" alt="04" src="https://user-images.githubusercontent.com/88580416/146136096-42333c59-a2a0-433f-a31d-a29198200f37.PNG">
+
+Note that the number nodes can dynamically be adjusted as demand picks up in line with the government’s phased reopening. 
+
+### Service Routes:
+Unlike traditional bus routes, routes for Changi’s shuttle service are not fixed. Instead, they vary based on the demand at the starting node (referenced in Section 2.1.1) for a particular day and time of day. The concept operates around a pseudo on-demand model enabled by passengers pre-booking interest in the service at least 24 hours before their arrival. This has important implications - in particular,  
+
+a.	The number of routes across the day and time of day may vary.
+b.	The scope of drop off points serviced by each route may change.
+
+Distance and time travel between points in a route were calculated using the Google Distance Matrix API. Both values are assumed to be symmetric (AB=BA) and required travel time is assumed to be constant across the day. This latter assumption is a simplification made by the team for modelling purposes and can be expanded on in future studies.
+Furthermore, route configurations must ensure all passengers are dropped off within forty-five (45) minutes as per the service guarantee. 
+
+### Bus Fleet
+Another critical element is the bus fleet. In the case of Changi Travel, all routes are served by 50-seater coaches. In its current configuration, each route is served by a single bus with seats being booked beforehand. To allow sufficient time to disinfect and prepare the bus for the next load, all buses need to return to Changi within 60 minutes from the initial time of departure. 
+
+The number of buses required are evaluated on two levels: (a) An initial number of buses seeded to serve current demand and (b) a semi-annual review of additional buses required based on the uptick in inbound traffic and service adoption of the passengers.
+
+### Model Objectives
+With the core components and assumptions outlined, there are two (2) key modelling outcomes the team wishes to achieve:
+
+![05](https://user-images.githubusercontent.com/88580416/146136300-b6675bda-b71f-4bd2-93b3-13e9e62d79ae.png)
+
+## MATHEMATICAL FORMULATION
+
+### Model Overview
+In this section, the business objectives are formulated mathematically as a modified capacitated vehicle routing problem . The analysis starts off with a big picture view of key variables, the objective function and constraints. This is followed by subsections featuring a more in-depth treatment of each of these components. 
+For the sake of clarity, the business objectives are mapped to corresponding model formulations, Model 1 and Model 2 – terms which the paper will repeatedly reference. These models are defined as follows:
+
+•	Model 1 determines the optimal number of buses needed to run the operation at a particular point in time. 
+
+•	Model 2 determines the day-to-day optimization of the number of routes, the nodes for that route and the order of nodes visited by the bus serving said route.
+
+As a starting point, note that both models share the same base variables, objective function and constraints. Model 2, however, has an additional variable and one additional constraint – the details of which are show in the succeeding sections. 
+
+### Model Variables
+
+<img width="523" alt="06" src="https://user-images.githubusercontent.com/88580416/146136581-f1a62626-7b6f-40c4-af5e-d547ed973966.PNG">
+
+### Full Model Formulation
+
+<img width="405" alt="07" src="https://user-images.githubusercontent.com/88580416/146136665-b04216e7-e442-4549-a874-9fff05afd294.PNG">
+
+### Objective Function
+
+<img width="287" alt="08" src="https://user-images.githubusercontent.com/88580416/146136750-7d46f4e9-6824-4deb-919e-845686cc353d.PNG">
+
+The objective function (1) is designed to maximise time savings based on Clarke and Wrights savings algorithm . This is computed by considering time saved when two nodes are joined to be serviced by one route instead of separating them into two routes. Mathematically, said time savings can be computed as follows:
+
+
